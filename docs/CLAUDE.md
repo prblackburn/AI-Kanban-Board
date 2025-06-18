@@ -1,10 +1,10 @@
 **IMPORTANT FOR CLAUDE: Reference this file before implementing anything**
 
-# Project: [Project Name]
+# Project: AI Kanban Board
 
 ## Project Overview
 
-A brief description of the project, its purpose, and key goals.
+A collaborative Kanban board web application built with Remix, React, TypeScript, and SQLite. Users can manage tasks across three columns (To Do, Doing, Done) with essential CRUD operations. Built for local development with a focus on simplicity and core functionality.
 
 ## Context Management
 
@@ -57,107 +57,126 @@ After updating these files, I'll reset the context window and we'll continue wit
 
 ---
 
-**NOTE FOR CLAUDE: Fill in the below**
 
 ## Tech Stack
 
-- Languages: [list primary languages]
-- Frameworks: [list frameworks]
-- Tools: [list tools]
+- Languages: TypeScript, SQL
+- Frameworks: Remix (full-stack), React, Tailwind CSS
+- Database: SQLite with better-sqlite3
+- Tools: pnpm, ESLint, Prettier, TypeScript compiler
 
 ## Code Style & Conventions
 
 ### Import/Module Standards
 
-- [Specify import standards]
+- Use ES6 imports/exports
+- Group imports: React/libraries first, then local components, then utilities
+- Use named imports when possible
+- Server-only modules use `.server.ts` suffix
 
 ### Naming Conventions
 
-- [Functions naming convention]
-- [Classes/Components naming convention]
-- [Constants naming convention]
-- [Files naming convention]
+- Functions: camelCase (`getTasks`, `createTask`, `updateTaskStatus`)
+- Components: PascalCase (`TaskCard`, `KanbanBoard`, `AddTaskForm`)
+- Files: kebab-case for utilities, PascalCase for components (`tasks.server.ts`, `TaskCard.tsx`)
+- Database functions: descriptive verbs (`getAllTasks`, `deleteTask`)
+- Constants: UPPER_SNAKE_CASE for true constants
 
 ### Patterns to Follow
 
-- [Key architectural patterns]
-- [Error handling approaches]
-- [Code organisation principles]
+- Simple Remix patterns: loader/action functions directly in routes
+- Component organization by feature (/board, /tasks, /ui)
+- Remix built-in error handling with ErrorBoundary
+- Raw SQL with parameterized queries
+- Form-based interactions with progressive enhancement
 
 ## Development Workflow
 
-- Branch strategy
-- Commit message format
-- PR requirements
+- Branch strategy: feature branches (`feature/task-creation`) merged to main
+- Commit message format: Conventional commits (`feat: add task creation form`)
+- PR requirements: Basic review by teammate, working functionality
 
 ## Testing Strategy
 
-- Test frameworks
-- Coverage requirements
-- Test naming conventions
+- Test frameworks: Vitest (built into Remix), @testing-library/react
+- Coverage requirements: Unit tests for core database functions, basic component tests
+- Test naming conventions: `functionName.test.ts`, `ComponentName.test.tsx`
 
 ## Environment Setup
 
-- Required environment variables
-- Setup commands
-- Local development server
+- Required environment variables: None (local SQLite database)
+- Setup commands: `pnpm install`, database auto-initializes on first run
+- Local development server: `pnpm run dev` (Remix dev server)
 
 ## Common Commands
 
 ```bash
+# Development server
+pnpm run dev
+
 # Build command
-[command]
+pnpm run build
 
 # Test command
-[command]
+pnpm run test
+
+# Type check command
+pnpm run typecheck
 
 # Lint command
-[command]
-
-# Check command
-[command]
-
-# Development server
-[command]
+pnpm run lint
 ```
 
 ## Project Structure
 
 Key directories and their purpose:
 
-- `/src` - [description]
-- `/tests` - [description]
-- [other important directories]
+- `/app` - Remix application code (routes, components, utilities)
+- `/app/components` - React components organized by feature (/board, /tasks, /ui)
+- `/app/lib` - Server-side utilities and database functions
+- `/app/routes` - Remix file-based routing
+- `/docs` - Project documentation and specifications
+- `/database` - SQLite database file location
 
 ## Review Process Guidelines
 
 Before submitting any code, ensure the following steps are completed:
 
 1. **Run all lint, check and test commands**
+   - `pnpm run typecheck`
+   - `pnpm run lint`
+   - `pnpm run test`
 
 2. **Review outputs and iterate until all issues are resolved**
 
 3. **Assess compliance**:
    For each standard, explicitly state ✅ or ❌ and explain why:
 
-   - Code style and formatting
-   - Naming conventions
-   - Architecture patterns (refer to `ARCHITECTURE.md`)
-   - Error handling
-   - Test coverage
-   - Documentation
+   - Code style and formatting (Prettier/ESLint)
+   - Naming conventions (camelCase functions, PascalCase components)
+   - Architecture patterns (Remix loader/action, component organization)
+   - Error handling (ErrorBoundary, form validation)
+   - Basic test coverage (database functions, key components)
+   - Minimal documentation (inline comments for complex logic)
 
 4. **Self-review checklist**:
-   - [ ] Code follows defined patterns
-   - [ ] No debug/commented code
-   - [ ] Error handling implemented
-   - [ ] Tests written and passing
-   - [ ] Documentation updated
+   - [ ] Code follows Remix patterns
+   - [ ] TypeScript types are correct
+   - [ ] Database operations use parameterized queries
+   - [ ] Components are organized by feature
+   - [ ] Forms handle validation and errors
+   - [ ] Essential functionality is tested
 
 ## Known Issues & Workarounds
 
-Document any current limitations or workarounds Claude should be aware of.
+- Workshop timeframe limits features to core functionality only
+- SQLite database file should be in `/database` directory (create if needed)
+- Manual testing required for user workflows
+- No real-time updates between users (local development only)
 
 ## References
 
-Links to relevant external documentation, design docs, or resources.
+- [Remix Documentation](https://remix.run/docs)
+- [React TypeScript Guide](https://react-typescript-cheatsheet.netlify.app/)
+- [better-sqlite3 API](https://github.com/WiseLibs/better-sqlite3/blob/master/docs/api.md)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
