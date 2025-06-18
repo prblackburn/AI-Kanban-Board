@@ -103,9 +103,29 @@ After updating these files, I'll reset the context window and we'll continue wit
 
 ## Testing Strategy
 
-- Test frameworks: Vitest (built into Remix), @testing-library/react
-- Coverage requirements: Unit tests for core database functions, basic component tests
-- Test naming conventions: `functionName.test.ts`, `ComponentName.test.tsx`
+### Test Frameworks and Setup
+- **Test Runner**: Vitest with Node.js environment for server-side testing
+- **Database Testing**: Isolated SQLite databases created per test suite
+- **Dependencies**: vitest, @testing-library/react, @testing-library/jest-dom, @testing-library/user-event, jsdom
+- **Configuration**: `vitest.config.ts` with tsconfigPaths plugin for proper imports
+
+### Testing Patterns Established
+- **Database Isolation**: Each test uses a temporary SQLite database created with `mkdtempSync()`
+- **Test Structure**: Comprehensive test suites covering all CRUD operations and error scenarios
+- **Error Testing**: Verify both input validation errors and database operation failures
+- **Data Integrity**: Test concurrent operations and referential integrity across operations
+- **Cleanup**: Automatic database cleanup with `beforeEach`/`afterEach` hooks
+
+### Coverage Requirements
+- **Core Database Functions**: All CRUD operations (getAllTasks, createTask, updateTaskStatus, deleteTask, getTaskById)
+- **Error Scenarios**: Invalid inputs, non-existent records, database failures
+- **Data Validation**: Input sanitization, type checking, constraint enforcement
+- **Component Tests**: Basic component rendering and form validation (future enhancement)
+
+### Test Naming Conventions
+- **Test Files**: `functionName.test.ts`, `ComponentName.test.tsx`
+- **Test Organization**: Nested `describe` blocks by function, then by scenario type
+- **Test Names**: Descriptive names starting with "should" (e.g., "should create task with valid title")
 
 ## Environment Setup
 
