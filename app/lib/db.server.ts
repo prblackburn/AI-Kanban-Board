@@ -1,12 +1,19 @@
 import Database from 'better-sqlite3';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { mkdirSync, existsSync } from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Database file path - relative to project root
 const dbPath = join(__dirname, '../../database/kanban.db');
+const dbDir = dirname(dbPath);
+
+// Ensure database directory exists
+if (!existsSync(dbDir)) {
+  mkdirSync(dbDir, { recursive: true });
+}
 
 // Initialize SQLite database connection with error handling
 let db: Database.Database;
@@ -15,8 +22,10 @@ try {
   db = new Database(dbPath);
   // Enable foreign key constraints
   db.pragma('foreign_keys = ON');
+  console.log('Database connection established:', dbPath);
 } catch (error) {
   console.error('Failed to initialize SQLite database:', error);
+  console.error('Database path:', dbPath);
   console.error('Make sure better-sqlite3 is properly installed with: pnpm rebuild better-sqlite3');
   throw new Error('Database connection failed');
 }

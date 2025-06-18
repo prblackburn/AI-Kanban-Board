@@ -88,7 +88,8 @@ After updating these files, I'll reset the context window and we'll continue wit
 - Component organization by feature (/board, /tasks, /ui)
 - Remix built-in error handling with ErrorBoundary
 - Raw SQL with parameterized queries
-- Form-based interactions with progressive enhancement
+- **Remix Form components**: Always use `<Form>` from `@remix-run/react` instead of native `<form>`
+- Form routing: Omit `action` prop to auto-submit to current route (where action function exists)
 
 ## Development Workflow
 
@@ -173,6 +174,11 @@ Before submitting any code, ensure the following steps are completed:
 - SQLite database file should be in `/database` directory (create if needed)
 - Manual testing required for user workflows
 - No real-time updates between users (local development only)
+
+### Database Setup Issues
+- **Python 3.13+ Compatibility**: If `better-sqlite3` fails to build with `distutils` errors, install `setuptools`: `pip3 install setuptools --break-system-packages`
+- **pnpm Build Scripts**: Use `pnpm approve-builds` to allow native module compilation
+- **PostCSS Config**: Use `.cjs` extension for PostCSS config in ES module projects
 
 ## References
 
