@@ -1,3 +1,5 @@
+import { Form } from "@remix-run/react";
+
 export function AddTaskForm() {
   return (
     <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6 max-w-2xl w-full">
@@ -8,7 +10,7 @@ export function AddTaskForm() {
         Add New Task
       </h2>
       
-      <form method="post" className="flex flex-col sm:flex-row gap-3">
+      <Form method="post" className="flex flex-col sm:flex-row gap-3">
         <input type="hidden" name="intent" value="create" />
         
         <div className="flex-1">
@@ -32,7 +34,7 @@ export function AddTaskForm() {
         >
           Add Task
         </button>
-      </form>
+      </Form>
     </div>
   );
 }

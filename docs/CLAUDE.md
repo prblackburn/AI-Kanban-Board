@@ -88,7 +88,8 @@ After updating these files, I'll reset the context window and we'll continue wit
 - Component organization by feature (/board, /tasks, /ui)
 - Remix built-in error handling with ErrorBoundary
 - Raw SQL with parameterized queries
-- Form-based interactions with progressive enhancement
+- **Remix Form components**: Always use `<Form>` from `@remix-run/react` instead of native `<form>`
+- Form routing: Omit `action` prop to auto-submit to current route (where action function exists)
 
 ## Development Workflow
 
