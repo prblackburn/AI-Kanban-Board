@@ -32,11 +32,15 @@ export async function action({ request }: ActionFunctionArgs) {
       case "create": {
         const title = formData.get("title");
         
-        if (!title || typeof title !== "string") {
-          throw new Response("Task title is required", { status: 400 });
+        if (!title || typeof title !== "string" || title.trim() === "") {
+          return json({
+            errors: {
+              title: "Task title is required and cannot be empty"
+            }
+          }, { status: 400 });
         }
         
-        createTask(title);
+        createTask(title.trim());
         return redirect("/");
       }
 

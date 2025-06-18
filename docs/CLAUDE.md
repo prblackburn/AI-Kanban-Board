@@ -90,6 +90,9 @@ After updating these files, I'll reset the context window and we'll continue wit
 - Raw SQL with parameterized queries
 - **Remix Form components**: Always use `<Form>` from `@remix-run/react` instead of native `<form>`
 - Form routing: Omit `action` prop to auto-submit to current route (where action function exists)
+- **Form validation**: Return JSON errors from actions instead of throwing Response errors
+- **UX feedback**: Use `useActionData` for error display, `useNavigation` for loading states
+- **Accessibility**: Include ARIA attributes for form validation and error messages
 
 ## Development Workflow
 
