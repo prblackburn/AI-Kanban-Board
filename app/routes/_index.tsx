@@ -1,7 +1,7 @@
-import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import type { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { getAllTasks, createTask, updateTaskStatus, deleteTask, type Task } from "~/lib/tasks.server";
+import { getAllTasks, createTask, updateTaskStatus, deleteTask } from "~/lib/tasks.server";
 import { KanbanBoard } from "~/components/board/KanbanBoard";
 
 export const meta: MetaFunction = () => {
@@ -12,7 +12,7 @@ export const meta: MetaFunction = () => {
 };
 
 // Loader function - fetches data for the page
-export async function loader({ request }: LoaderFunctionArgs) {
+export async function loader() {
   try {
     const tasks = getAllTasks();
     return json({ tasks });
