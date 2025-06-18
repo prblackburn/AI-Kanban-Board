@@ -16,7 +16,7 @@ if (!existsSync(dbDir)) {
 }
 
 // Initialize SQLite database connection with error handling
-let db: Database.Database | null = null;
+let db: Database.Database;
 
 try {
   db = new Database(dbPath);
@@ -24,19 +24,14 @@ try {
   db.pragma('foreign_keys = ON');
   console.log('Database connection established:', dbPath);
 } catch (error) {
-  console.warn('Failed to initialize SQLite database:', error);
-  console.warn('Database path:', dbPath);
-  console.warn('Running in mock mode. Install better-sqlite3 native bindings for full functionality.');
-  db = null;
+  console.error('Failed to initialize SQLite database:', error);
+  console.error('Database path:', dbPath);
+  console.error('Make sure better-sqlite3 is properly installed with: pnpm rebuild better-sqlite3');
+  throw new Error('Database connection failed');
 }
 
 // Initialize database schema
 export function initializeDatabase() {
-  if (!db) {
-    console.warn('Database not available, skipping initialization');
-    return;
-  }
-  
   try {
     // Create tasks table if it doesn't exist
     const createTasksTable = db.prepare(`
@@ -67,9 +62,7 @@ initializeDatabase();
 // Graceful shutdown
 process.on('exit', () => {
   try {
-    if (db) {
-      db.close();
-    }
+    db.close();
   } catch (error) {
     console.error('Error closing database:', error);
   }

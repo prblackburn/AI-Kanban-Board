@@ -174,6 +174,11 @@ Before submitting any code, ensure the following steps are completed:
 - Manual testing required for user workflows
 - No real-time updates between users (local development only)
 
+### Database Setup Issues
+- **Python 3.13+ Compatibility**: If `better-sqlite3` fails to build with `distutils` errors, install `setuptools`: `pip3 install setuptools --break-system-packages`
+- **pnpm Build Scripts**: Use `pnpm approve-builds` to allow native module compilation
+- **PostCSS Config**: Use `.cjs` extension for PostCSS config in ES module projects
+
 ## References
 
 - [Remix Documentation](https://remix.run/docs)

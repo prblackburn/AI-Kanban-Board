@@ -10,48 +10,6 @@ export interface Task {
 
 export type TaskStatus = 'todo' | 'doing' | 'done';
 
-// Mock data for when database is not available
-let mockTasks: Task[] = [
-  {
-    id: 1,
-    title: "Set up project structure",
-    status: "done",
-    created_at: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-  },
-  {
-    id: 2,
-    title: "Create React components",
-    status: "done",
-    created_at: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString(),
-  },
-  {
-    id: 3,
-    title: "Implement task creation form",
-    status: "doing",
-    created_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-  },
-  {
-    id: 4,
-    title: "Add task status updates",
-    status: "doing",
-    created_at: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-  },
-  {
-    id: 5,
-    title: "Style the UI components",
-    status: "todo",
-    created_at: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-  },
-  {
-    id: 6,
-    title: "Connect to database",
-    status: "todo",
-    created_at: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(),
-  }
-];
-
-let nextId = 7;
-
 // Validation helper
 function validateTaskStatus(status: string): status is TaskStatus {
   return ['todo', 'doing', 'done'].includes(status);
@@ -59,11 +17,6 @@ function validateTaskStatus(status: string): status is TaskStatus {
 
 // Get all tasks ordered by creation date
 export function getAllTasks(): Task[] {
-  if (!db) {
-    console.log('Using mock data (database not available)');
-    return [...mockTasks].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-  }
-  
   try {
     const stmt = db.prepare(`
       SELECT id, title, status, created_at 
@@ -86,18 +39,6 @@ export function createTask(title: string): Task {
   }
 
   const cleanTitle = title.trim();
-  
-  if (!db) {
-    console.log('Creating task with mock data (database not available)');
-    const newTask: Task = {
-      id: nextId++,
-      title: cleanTitle,
-      status: 'todo',
-      created_at: new Date().toISOString(),
-    };
-    mockTasks.push(newTask);
-    return newTask;
-  }
   
   try {
     const stmt = db.prepare(`
@@ -141,16 +82,6 @@ export function updateTaskStatus(id: number, status: TaskStatus): Task {
     throw new Error('Invalid task status. Must be one of: todo, doing, done');
   }
   
-  if (!db) {
-    console.log('Updating task with mock data (database not available)');
-    const taskIndex = mockTasks.findIndex(task => task.id === id);
-    if (taskIndex === -1) {
-      throw new Error('Task not found');
-    }
-    mockTasks[taskIndex].status = status;
-    return mockTasks[taskIndex];
-  }
-  
   try {
     const stmt = db.prepare(`
       UPDATE tasks 
@@ -190,16 +121,6 @@ export function deleteTask(id: number): void {
     throw new Error('Invalid task ID');
   }
   
-  if (!db) {
-    console.log('Deleting task with mock data (database not available)');
-    const taskIndex = mockTasks.findIndex(task => task.id === id);
-    if (taskIndex === -1) {
-      throw new Error('Task not found');
-    }
-    mockTasks.splice(taskIndex, 1);
-    return;
-  }
-  
   try {
     const stmt = db.prepare(`
       DELETE FROM tasks 
@@ -221,10 +142,6 @@ export function deleteTask(id: number): void {
 export function getTaskById(id: number): Task | null {
   if (!Number.isInteger(id) || id <= 0) {
     return null;
-  }
-  
-  if (!db) {
-    return mockTasks.find(task => task.id === id) || null;
   }
   
   try {
